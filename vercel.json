@@ -1,8 +1,8 @@
 {
 	"redirects": [
 		{
-			"source": "/callback/",
-			"destination": "/callback.html",
+			"source": "/(.*)",
+			"destination": "https://www.feminivefanfics.com.br/$1",
 			"permanent": true
 		}
 	]
