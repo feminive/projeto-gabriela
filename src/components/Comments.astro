@@ -1,0 +1,398 @@
+<div class="w-full mx-auto p-6">
+  <h2
+    class="text-3xl font-bold text-[--primary] mb-6 text-center"
+    id="post-title"
+  >
+    Deixe seu comentário anônimo
+  </h2>
+
+  <form
+    id="comment-form"
+    class="mb-6 space-y-4 card-base p-4 rounded-lg shadow"
+  >
+    <input
+      type="text"
+      id="authorName"
+      placeholder="Seu apelido"
+      class="w-full p-3 border rounded-lg outline-none dark:bg-[#f4f4f4]"
+      required
+    />
+    <textarea
+      id="newComment"
+      placeholder="Escreva seu comentário..."
+      class="w-full p-3 border rounded-lg outline-none resize-none dark:bg-[#f4f4f4]"
+      rows="4"
+      required></textarea>
+    <button
+      type="submit"
+      class="w-full btn-regular py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-all"
+    >
+      Enviar
+    </button>
+  </form>
+
+  <div id="comments-container" class="space-y-4"></div>
+</div>
+
+<script type="module">
+  // Função de validação
+  // --------------------
+  // Repare que **agora** iremos chamar "validateComment" nos pontos certos do código.
+  // Caso ela retorne 'valid: false', exibimos a mensagem de erro e paramos a execução.
+
+  export function validateComment(content, recentComments = []) {
+    const normalized = content.trim();
+
+    if (normalized.length < 5) {
+      return { valid: false, reason: "Comentário muito curto." };
+    }
+
+    if (normalized.length > 500) {
+      return {
+        valid: false,
+        reason: "Comentário muito longo. Limite de 500 caracteres.",
+      };
+    }
+
+    const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i;
+    if (emailRegex.test(normalized)) {
+      return { valid: false, reason: "Comentário não pode conter e-mail." };
+    }
+
+    const urlRegex = /(https?:\/\/|www\.)[\w.-]+/gi;
+    if (urlRegex.test(normalized)) {
+      return { valid: false, reason: "Links e sites não são permitidos." };
+    }
+
+    // Remove pontuações, símbolos e emojis, e verifica se sobra conteúdo significativo
+    const meaningful = normalized.replace(/[\p{P}\p{S}\p{Emoji}]/gu, "").trim();
+    if (meaningful.length < 3) {
+      return {
+        valid: false,
+        reason: "Comentário precisa ter mais conteúdo significativo.",
+      };
+    }
+
+    if (recentComments.includes(normalized)) {
+      return { valid: false, reason: "Comentário duplicado." };
+    }
+
+    return { valid: true };
+  }
+
+  async function initComments() {
+    let urlPath = window.location.pathname;
+    if (urlPath.endsWith("/")) urlPath = urlPath.slice(0, -1);
+    const postId = urlPath.substring(urlPath.lastIndexOf("/") + 1);
+
+    if (!postId) {
+      console.error("Nenhum postId foi definido!");
+      return;
+    }
+
+    const apiUrl = "https://comments-api-tau.vercel.app/api/posts";
+
+    let comments = [];
+    let lastPostTime = {};
+    const likeCooldown = 10 * 60 * 1000; // 10 minutos
+
+    // Busca os comentários no servidor
+    async function fetchComments() {
+      try {
+        const response = await fetch(apiUrl, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) throw new Error("Erro ao buscar comentários");
+
+        const data = await response.json();
+        comments = data.filter((comment) => comment.post_id === postId);
+        renderComments();
+      } catch (error) {
+        console.error("❌ Erro ao buscar comentários:", error.message);
+      }
+    }
+
+    // Renderiza comentários e respostas
+    function renderComments() {
+      const container = document.getElementById("comments-container");
+      container.innerHTML = "";
+      const defaultAvatar =
+        "https://ui-avatars.com/api/?name=Anon&background=random";
+
+      function renderComment(comment, depth = 0) {
+        const div = document.createElement("div");
+        div.className = `card-base p-4 rounded-lg shadow-md ${
+          depth > 0 ? "ml-6" : ""
+        }`;
+        const avatarUrl = comment.image_url || defaultAvatar;
+
+        div.innerHTML = `
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 flex items-center justify-center rounded-full bg-[--primary] text-white font-bold text-lg">
+              ${comment.author_name?.charAt(0).toUpperCase() || "?"}
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between items-start">
+                <div>
+                  <p class="text-lg font-semibold text-[--primary]">${
+                    comment.author_name
+                  }</p>
+                  <small class="italic text-gray-500 mt-1 block">
+                    ${new Date(comment.created_at).toLocaleDateString("pt-BR", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </small>
+                  <p class="mt-2 text-90">${comment.content}</p>
+                </div>
+                <button
+                  class="flex items-center gap-2 px-3 py-1 rounded-lg btn-regular transition-all"
+                  onclick="handleLike('${comment.id}')"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 stroke-[--primary]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                  </svg>
+                  <span id="like-count-${comment.id}" class="font-semibold">
+                    ${comment.likes}
+                  </span>
+                </button>
+              </div>
+              <div class="flex justify-end mt-2">
+                <button class="btn-regular reply-btn text-sm px-3 py-1 rounded-md" data-parent-id="${
+                  comment.id
+                }">
+                  Responder
+                </button>
+              </div>
+              <div class="reply-form mt-4 hidden"></div>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(div);
+
+        const replyBtn = div.querySelector(".reply-btn");
+        const replyFormContainer = div.querySelector(".reply-form");
+
+        // Formulário de resposta
+        replyBtn.addEventListener("click", () => {
+          replyFormContainer.classList.toggle("hidden");
+
+          if (!replyFormContainer.hasChildNodes()) {
+            replyFormContainer.innerHTML = `
+              <form class="space-y-2 reply-comment-form">
+                <input
+                  type="text"
+                  name="author_name"
+                  placeholder="Seu apelido"
+                  required
+                  class="w-full p-2 border rounded"
+                />
+                <textarea
+                  name="content"
+                  rows="2"
+                  placeholder="Sua resposta..."
+                  required
+                  class="w-full p-2 border rounded"
+                ></textarea>
+                <button
+                  type="submit"
+                  class="btn-regular py-1 px-3 rounded text-sm"
+                >
+                  Enviar resposta
+                </button>
+              </form>
+            `;
+
+            const replyForm = replyFormContainer.querySelector("form");
+
+            replyForm.addEventListener("submit", async (e) => {
+              e.preventDefault();
+              const author_name = replyForm.author_name.value.trim();
+              const content = replyForm.content.value.trim();
+              if (!author_name || !content) return;
+
+              // Chama a validação antes de enviar a resposta
+              const validationResult = validateComment(
+                content,
+                comments.map((c) => c.content)
+              );
+              if (!validationResult.valid) {
+                alert(validationResult.reason);
+                return;
+              }
+
+              // Se passou na validação, envia ao backend
+              try {
+                const response = await fetch(apiUrl, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    post_id: postId,
+                    content,
+                    author_name,
+                    parent_id: comment.id,
+                  }),
+                });
+
+                if (!response.ok) throw new Error("Erro ao enviar resposta");
+
+                // Atualiza a lista de comentários
+                fetchComments();
+              } catch (error) {
+                console.error("Erro ao enviar resposta:", error.message);
+                alert("Erro ao enviar resposta!");
+              }
+            });
+          }
+        });
+
+        // Renderiza as respostas recursivamente
+        if (comment.replies && comment.replies.length > 0) {
+          comment.replies.forEach((reply) => renderComment(reply, depth + 1));
+        }
+      }
+
+      // Renderiza cada comentário
+      comments.forEach((comment) => renderComment(comment));
+    }
+
+    // Lida com ENVIO de novo comentário
+    document
+      .getElementById("comment-form")
+      .addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const authorName = document.getElementById("authorName").value.trim();
+        const newComment = document.getElementById("newComment").value.trim();
+
+        if (!authorName || !newComment) {
+          alert("Preencha todos os campos!");
+          return;
+        }
+
+        // Aplica VALIDAÇÃO antes de enviar o comentário
+        const validationResult = validateComment(
+          newComment,
+          comments.map((c) => c.content)
+        );
+        if (!validationResult.valid) {
+          alert(validationResult.reason);
+          return;
+        }
+
+        const now = Date.now();
+        if (
+          lastPostTime[authorName] &&
+          now - lastPostTime[authorName] < likeCooldown
+        ) {
+          alert("Você só pode postar um novo comentário a cada 10 minutos.");
+          return;
+        }
+
+        // Mostra o comentário otimisticamente na tela, antes de chegar do backend
+        const tempId = Math.random().toString(36).substring(2, 15);
+        const newCommentObj = {
+          id: tempId,
+          post_id: postId,
+          content: newComment,
+          author_name: authorName,
+          likes: 0,
+          created_at: new Date().toISOString(),
+          image_url: null,
+          replies: [],
+        };
+        comments = [newCommentObj, ...comments];
+        renderComments();
+
+        // Atualiza o tempo em que o usuário postou
+        lastPostTime[authorName] = now;
+
+        // Envia ao backend
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              post_id: postId,
+              content: newComment,
+              author_name: authorName,
+            }),
+          });
+          if (!response.ok) throw new Error("Erro ao enviar comentário");
+
+          // Limpa campos
+          document.getElementById("authorName").value = "";
+          document.getElementById("newComment").value = "";
+
+          // Atualiza comentários com o que está no servidor
+          fetchComments();
+        } catch (error) {
+          console.error("❌ Erro ao enviar comentário:", error.message);
+          alert("Erro ao enviar comentário!");
+        }
+      });
+
+    // Lida com LIKES
+    async function handleLike(commentId) {
+      const lastLikeTime = localStorage.getItem(`lastLike-${commentId}`);
+      const now = Date.now();
+      if (lastLikeTime && now - parseInt(lastLikeTime) < likeCooldown) {
+        alert("Você só pode curtir esse comentário novamente após 10 minutos.");
+        return;
+      }
+      comments = comments.map((c) =>
+        c.id === commentId ? { ...c, likes: c.likes + 1 } : c
+      );
+      localStorage.setItem(`lastLike-${commentId}`, now.toString());
+      try {
+        const response = await fetch(`${apiUrl}/${commentId}/like`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            likes: comments.find((c) => c.id === commentId).likes,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error("Erro ao atualizar like");
+        }
+        document.getElementById(`like-count-${commentId}`).innerText =
+          comments.find((c) => c.id === commentId).likes;
+      } catch (error) {
+        console.error("❌ Erro ao atualizar like:", error.message);
+      }
+    }
+
+    // Expondo a função para ser chamada diretamente no HTML (onclick)
+    window.handleLike = handleLike;
+
+    // Carrega os comentários assim que a página iniciar
+    fetchComments();
+
+    // Se a rota mudar (popstate), recarregamos os comentários
+    window.addEventListener("popstate", () => {
+      let newUrlPath = window.location.pathname;
+      if (newUrlPath.endsWith("/")) newUrlPath = newUrlPath.slice(0, -1);
+      const newPostId = newUrlPath.substring(newUrlPath.lastIndexOf("/") + 1);
+      if (newPostId !== postId) {
+        fetchComments();
+      }
+    });
+  }
+
+  // Inicializa
+  initComments();
+</script>

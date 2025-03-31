@@ -1,0 +1,361 @@
+<div class="min-h-screen card-base py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-lg mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6">
+      <h2 class="text-2xl font-bold text-white">Detalhes da Assinatura</h2>
+    </div>
+
+    <!-- Loading State -->
+    <div id="status" class="p-8 flex items-center justify-center">
+      <div class="flex items-center space-x-3">
+        <svg
+          class="animate-spin h-5 w-5 text-blue-600"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        <span class="text-gray-600">Carregando...</span>
+      </div>
+    </div>
+
+    <!-- Subscription Data -->
+    <div id="data" class="hidden">
+      <div class="p-8 space-y-6">
+        <!-- Status -->
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <div
+              class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center"
+            >
+              <svg
+                class="h-6 w-6 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-sm font-medium text-gray-500">Status</h3>
+            <p id="sub-status" class="mt-1 text-lg font-semibold text-gray-900">
+            </p>
+          </div>
+        </div>
+
+        <!-- Start Date -->
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <div
+              class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center"
+            >
+              <svg
+                class="h-6 w-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-sm font-medium text-gray-500">Data de Início</h3>
+            <p id="sub-start" class="mt-1 text-lg font-semibold text-gray-900">
+            </p>
+          </div>
+        </div>
+
+        <!-- End Date -->
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <div
+              class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center"
+            >
+              <svg
+                class="h-6 w-6 text-purple-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-sm font-medium text-gray-500">
+              Fim do Período Atual
+            </h3>
+            <p id="sub-end" class="mt-1 text-lg font-semibold text-gray-900">
+            </p>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <div
+              class="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center"
+            >
+              <svg
+                class="h-6 w-6 text-yellow-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-sm font-medium text-gray-500">Email</h3>
+            <p id="sub-email" class="mt-1 text-lg font-semibold text-gray-900">
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="px-8 py-6 bg-gray-50 space-y-4">
+        <button
+          id="cancel-button"
+          class="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+          style="display: none;"
+        >
+          <svg
+            class="h-5 w-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+          Cancelar Assinatura
+        </button>
+
+        <button
+          id="logout-button"
+          class="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 shadow-sm"
+        >
+          <svg
+            class="h-5 w-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            ></path>
+          </svg>
+          Deslogar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", function () {
+    var apiUrl = "https://checkout-stripe-xi.vercel.app";
+    var email = localStorage.getItem("userEmail");
+
+    if (!email) {
+      console.error("Erro: Nenhum email encontrado no localStorage.");
+      document.getElementById("status").innerHTML = `
+        <div class="flex items-center justify-center text-red-600">
+          <svg class="h-6 w-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+          </svg>
+          <span>Erro: Usuário não autenticado.</span>
+        </div>
+      `;
+      return;
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return "Data indisponível";
+      const date = new Date(dateString);
+      return (
+        date.toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        }) +
+        " às " +
+        date.toLocaleTimeString("pt-BR", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+      );
+    }
+
+    function showError(message) {
+      document.getElementById("status").innerHTML = `
+        <div class="flex items-center justify-center text-red-600">
+          <svg class="h-6 w-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+          </svg>
+          <span>${message}</span>
+        </div>
+      `;
+    }
+
+    function fetchSubscription() {
+      fetch(apiUrl + "/subscription-info?email=" + encodeURIComponent(email))
+        .then(async function (response) {
+          if (response.status === 404) {
+            showError("Nenhuma assinatura ativa encontrada.");
+            return null;
+          }
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || "Erro ao buscar assinatura.");
+          }
+          return response.json();
+        })
+        .then(function (data) {
+          if (!data) return;
+
+          document.getElementById("sub-status").innerText =
+            data.status === "active"
+              ? "Ativa"
+              : data.status === "canceled"
+                ? "Cancelada"
+                : data.status || "Desconhecido";
+
+          document.getElementById("sub-start").innerText = formatDate(
+            data.start_date
+          );
+          document.getElementById("sub-end").innerText = formatDate(
+            data.current_period_end
+          );
+          document.getElementById("sub-email").innerText =
+            data.customer_email || email;
+
+          document.getElementById("status").style.display = "none";
+          document.getElementById("data").classList.remove("hidden");
+
+          if (data.status === "active") {
+            document.getElementById("cancel-button").style.display = "flex";
+          }
+        })
+        .catch(function (error) {
+          showError("Erro ao buscar assinatura.");
+          console.error("Erro ao buscar assinatura:", error);
+        });
+    }
+
+    function cancelSubscription() {
+      if (!confirm("Tem certeza que deseja cancelar sua assinatura?")) return;
+
+      const cancelButton = document.getElementById("cancel-button");
+      const originalContent = cancelButton.innerHTML;
+
+      cancelButton.innerHTML = `
+        <svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Cancelando...
+      `;
+      cancelButton.disabled = true;
+
+      fetch(apiUrl + "/cancel-subscription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email }),
+      })
+        .then(async function (response) {
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || "Erro ao cancelar assinatura.");
+          }
+          return response.json();
+        })
+        .then(function () {
+          // Show success message
+          const toast = document.createElement("div");
+          toast.className =
+            "fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-transform duration-300 ease-in-out";
+          toast.innerHTML = `
+            <div class="flex items-center">
+              <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              Assinatura cancelada com sucesso!
+            </div>
+          `;
+          document.body.appendChild(toast);
+
+          // Remove toast after 3 seconds
+          setTimeout(() => {
+            toast.style.transform = "translateX(150%)";
+            setTimeout(() => toast.remove(), 300);
+          }, 3000);
+
+          fetchSubscription();
+        })
+        .catch(function (error) {
+          alert("Erro: " + error.message);
+          console.error("Erro ao cancelar assinatura:", error);
+          cancelButton.innerHTML = originalContent;
+          cancelButton.disabled = false;
+        });
+    }
+
+    function logoutUser() {
+      localStorage.removeItem("userEmail");
+      sessionStorage.clear();
+      window.location.href = "/";
+    }
+
+    document
+      .getElementById("logout-button")
+      .addEventListener("click", logoutUser);
+    document
+      .getElementById("cancel-button")
+      .addEventListener("click", cancelSubscription);
+
+    fetchSubscription();
+  });
+</script>

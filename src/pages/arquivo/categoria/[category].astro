@@ -1,0 +1,29 @@
+---
+import ArchivePanel from "@components/ArchivePanel.astro";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getCategoryList } from "@utils/content-utils";
+import { slugify } from "@utils/slugify";
+
+export async function getStaticPaths() {
+  const categories = await getCategoryList();
+  return categories.map((category) => {
+    return {
+      params: {
+        category: slugify(category.name),
+      },
+    };
+  });
+}
+
+const categorySlug = Astro.params.category as string;
+const category = slugify(categorySlug);
+---
+
+<MainGridLayout
+  title={i18n(I18nKey.archive)}
+  description={i18n(I18nKey.archive)}
+>
+  <ArchivePanel categories={[category]} />
+</MainGridLayout>

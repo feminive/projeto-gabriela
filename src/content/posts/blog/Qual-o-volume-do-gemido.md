@@ -1,0 +1,35 @@
+---
+title: Qual o volume do gemido?
+published: 2025-01-18
+tags: [Blog]
+image: '../../../assets/images/blog/Qual-o-volume-do-gemido.webp'
+category: Blog
+draft: false
+---
+Sabe aquelas coisas que ninguém ensina pra gente? Pois é, a lista é longa. Você tá ali, mocinha, cheia de dúvidas sobre sexualidade, tentando entender o que tá rolando no seu corpo, e o que acontece? Pergunta pras amigas, e elas tão, tão, tão perdidas quanto você. Vai pra internet, e os sites "confiáveis" estão cheios de termos formais que te deixam mais confusa ainda. O que sobra? Pornografia e Reddit! Pois bem, é aqui que eu entro: vamos conversar sobre um tema importantíssimo. Gemidos durante o sexo: existe um volume adequado? Tem alguma etiqueta? Ou é grita quem pode, geme quem não tem juízo ?
+
+Quando eu era novinha, começando a vida sexual, também buscava respostas nos pornôs, porque, né? Referências! Um dia, fiquei intrigadíssima com os gemidos. As mulheres lá gritavam como se estivessem num espetáculo, desfazendo-se em um turbilhão de prazeres que parecia, arrancar a alma delas pela boca em forma de sons. E eu? Sentia prazer, claro, adorava! Mas naquele nível de performance? Nunca. Comecei a me questionar: será que eu não tô sentindo o prazer do jeito certo? Será que alguma vez na vida eu gozei de verdade ou foram só, gozadelas ?
+
+Eu lembro que quando essa ideia surgiu, fiquei toda tensa. Comecei a me vigiar, e prestar atenção aos meus próprios gemidos e, adivinha? O prazer foi embora! Claro que, como boa masoquista que sou, vou me expor aqui, vergonhosamente, e contar sobre meus gemidos. Mas para isso, vou precisar que a puta que habita em você se conecte com a puta que habita em mim, e aí você vai ter que ler com o melhor espírito possível tentando reproduzir os sons , tá?
+
+Acho que meu gemido mais comum era aquele “Ainnnn! Seguido de um Shhhhhhhhh…” que, na real, é quase o mesmo som que você faz quando bate o mindinho do pé na quina de qualquer coisa e tenta não gritar de dor. Ou também tinha os “Ai!” e não confunda com o “Aí!” acentuado. Que é uma interjeição de dor e nele, tende-se a estender a última letra de forma prolongada, fazendo um ditongo virar um hiato, o primeiro é um staccato repetitivo como quem anda com pés descalsos em uma areia quente.
+
+Agora, na hora do orgasmo, é outra história. Até hoje, não há sons vocálicos. Eu simplesmente pareço que estou sendo estrangulada, e o que sai de mim são ganidos abafados, presos na garganta, como se eu estivesse tentando cantar uma melodia em etrusco primitivo pontuados por um “Aí caralho!”. Eu sempre fico tão dura que, quando chego ao ápice, parece impossível fazer meu peito se contrair mais para liberar o ar e poder falar algo. E claro o famoso mugido “Hmmm”, troque qualquer onomatopeia que sua boca seja capaz de fazer por um “Hmm” e você entender.
+
+Depois, evoluí para o longo miado de gato dissonante, que é quase uma nota musical desafinada em tom alto, sustentada até o desespero em um crescendo. Sabe aquele som de gata no cio? Pois é, é quase isso. Uma nota dissonante, um tanto de angústia e um toque de drama, como se eu fosse uma sinfonia interrompida pelo caos. Essa era eu, embora eu fosse exageradamente dramática, sempre havia uma linha tênue entre o controle e a normalidade com a qual eu lidava. Não me via muito dentro do padrão que eu conhecia, mas seguia vivendo minha vida bem, até que, como sempre, o caos foi me encontrar.
+
+Foi quando um namorado que eu tive, ótimo comigo e que eu gostava muito, sugeriu uma conversa tranquila. Ele falou que gostaria de me ouvir dizendo umas putarias. Claro, sempre tive a cabeça aberta e aceitei na hora, falei sem pensar:
+
+— Eu sou uma putona, vou falar altas putarias para você, gato…
+
+Mas, na real, eu nunca fui assim. Não era tímida, coisas como “Deixa eu te chupar? Me come aqui rapidinho, enfia o dedinho” faziam parte do meu repertório, mas o que ele queria, era algo além disso e eu não entendia muito bem qual era o protocolo essas coisas. Então, o que eu fiz? Recorri aos pornôs novamente e sim, fiz anotações, traduzindo todas as falas dos filmes que assistia. E o ridículo tomou conta da minha cama.
+
+Ao invés de eu relaxar, eu soltava essas coisas na hora errada. Por exemplo, durante as preliminares, eu soltava um “Amor, come minha bucetinha bem gostoso?” E o cara, claro, parava tudo e me empalava completamente maluco. Aí eu ficava pensando: “Nossa, ele pulou todas as preliminares_, que merda!_”.
+
+E o pior foi quando eu estava de quatro, resistindo a um homem mais do que empolgado atrás de mim, e comecei a gritar “Me come, caralho, vai, porra, mete, mete!” — e eu nem estava nesse tesão todo. Palavras completamente estranhas para mim, que não combinam nem um pouco com a minha pessoa. Mas o rapaz se empolgou e eu lutei por dias contra as dores do útero. Depois disso, aprendi que há momentos para se dizer as coisas tanto na vida quanto na cama.
+
+Eu demorei para me acertar. Fingi muitos gemidos, exagerei orgasmos, tudo para agradar aos outros, mas, vejam só, estava sendo ridícula — e eu sou ridícula. Com o tempo, aprendi algumas coisas básicas. Primeiro, que isso não era importante pra mim, e eu não era assim o tempo todo. Percebi que as expressões de prazer surgem naturalmente quando eu realmente estou excitada e sentindo prazer de verdade, e isso exige confiança, proteção, entrega e um lugar adequado.
+
+Sobre falar putarias, se ele quiser que eu fale, me deixe maluca, e eu vou falar coisas que deixariam qualquer homem envergonhado — tudo depende dele.
+
+Com o tempo, percebi que a aceitação de si mesma não se tratava apenas de me conhecer no sentido íntimo, mas de entender a pressão constante que a sociedade coloca sobre o meu corpo e os meus desejos como mulher. As expectativas de prazer que são vendidas por filmes, por conversas alheias ou pela mídia me diziam que eu deveria ser uma performance — que o prazer tinha que ser espetacular, barulhento, visível. Isso me levou a questionar: 'Será que o prazer feminino só tem valor se for amplificado, exposto, dramatizado?' Em minha busca por ser 'boa o suficiente' para o outro, acabei me esquecendo de que o prazer deveria ser uma experiência pessoal e não um espetáculo. Como uma mulher pode ser plena se está constantemente se moldando ao que esperam dela, e não ao que ela verdadeiramente deseja? No fundo, a verdadeira liberdade está em recusar essas normas que nos forçam a ser algo que não somos — ou, mais ainda, em aceitar que nossa sexualidade não precisa se conformar a um padrão. Algumas mulheres nunca se sentem à vontade para se expressar de maneira 'intensa' porque o prazer delas é mais discreto, mais silencioso, ou simplesmente diferente. E isso é igualmente válido. No final das contas, talvez o autoconhecimento não seja apenas sobre nos aceitarmos, mas também sobre desafiar essas normas e criar nosso próprio caminho no mundo do prazer, sem medo de ser quem realmente somos, em todas as nossas versões.

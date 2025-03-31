@@ -1,0 +1,241 @@
+---
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Esse conto é somente para assinantes</title>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<MainGridLayout>
+  <body>
+    <div class="min-h-screen bg-base py-12 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+          <h1
+            class="text-3xl md:text-4xl font-bold color-base mb-4 text-[--primary]"
+          >
+            Esse conto é somente para assinantes!
+          </h1>
+          <p class="text-90 max-w-2xl mx-auto">
+            Se quiser continuar a ler essa série, considere se tornar um membro
+            para ter acesso à ele e muito mais outros recursos!
+          </p>
+        </div>
+
+        <!-- Benefits Section -->
+        <div
+          class="bg-white/50 dark:bg-white/10 backdrop-blur-lg rounded-xl p-8 mb-12 border border-pink-200 shadow-soft"
+        >
+          <h2 class="text-2xl text-[--primary] font-semibold mb-6 text-center">
+            Todos os planos incluem:
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Coluna 1 -->
+            <div class="text-90 leading-relaxed">
+              <p class="transition text-75 hyphens-auto text-justify text-md">
+                Ao assinar nossos conteúdos, você não só nos ajuda a manter este
+                espaço vivo, como também apoia o nosso sonho de continuar
+                escrevendo histórias que tocam, provocam e despertam. É graças a
+                esse apoio que conseguimos cuidar do site, mantê-lo no ar e
+                oferecer novas experiências para quem ama se perder entre
+                palavras. Além disso, assinantes têm acesso a capítulos
+                exclusivos, novidades antecipadas e um carinho especial no
+                suporte.
+              </p>
+            </div>
+            <!-- Coluna 2 -->
+            <div class="space-y-4">
+              <div class="flex items-center space-x-3">
+                <div class="btn-regular">
+                  <Icon name="lucide:check" class="w-5 h-5 text-[--primary]" />
+                </div>
+                <span class="text-90">Acesso completo à plataforma</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div class="btn-regular">
+                  <Icon name="lucide:check" class="w-5 h-5 text-[--primary]" />
+                </div>
+                <span class="text-90">Suporte direto</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div class="btn-regular">
+                  <Icon name="lucide:check" class="w-5 h-5 text-[--primary]" />
+                </div>
+                <span class="text-90">Contos exclusivos</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div class="btn-regular">
+                  <Icon name="lucide:check" class="w-5 h-5 text-[--primary]" />
+                </div>
+                <span class="text-90">Pedidos de contos personalizados</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div class="btn-regular">
+                  <Icon name="lucide:check" class="w-5 h-5 text-[--primary]" />
+                </div>
+                <span class="text-90">Atualizações premium</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div class="btn-regular">
+                  <Icon name="lucide:check" class="w-5 h-5 text-[--primary]" />
+                </div>
+                <span class="text-90">Toda a minha gratidão</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+          <!-- Mensal Card -->
+          <section class="card-base p-6">
+            <form
+              action="https://checkout-stripe-xi.vercel.app/create-checkout-session"
+              method="POST"
+            >
+              <input
+                type="hidden"
+                name="priceId"
+                value="price_1Qw2Xb2Nl22xzN05KsRJ6UgD"
+              />
+              <div class="flex flex-col h-full">
+                <div class="flex items-center space-x-2 mb-4">
+                  <h3 class="text-xl font-semibold text-90">Mensal</h3>
+                </div>
+                <div class="mb-6">
+                  <span class="text-3xl font-bold text-[--primary]"
+                    >R$14,90</span
+                  >
+                  <span class="text-gray-400">/mês</span>
+                  <p class="text-sm text-90 mt-1">Pagamento Único!</p>
+                </div>
+                <button
+                  class="btn-regular scale-animation rounded-lg w-full py-2 px-4 text-90 duration-300 mt-auto"
+                >
+                  Escolher
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- Trimestral Card -->
+          <div class="card-base p-6">
+            <section class="flex flex-col h-full">
+              <form
+                action="https://checkout-stripe-xi.vercel.app/create-checkout-session"
+                method="POST"
+              >
+                <input
+                  type="hidden"
+                  name="priceId"
+                  value="price_1Qw2ZF2Nl22xzN05P5ScF3xg"
+                />
+                <div class="flex items-center space-x-2 mb-4">
+                  <h3 class="text-xl font-semibold text-90">Trimestral</h3>
+                </div>
+                <div class="mb-6">
+                  <span class="text-3xl font-bold text-[--primary]"
+                    >R$40,20</span
+                  >
+                  <span class="text-gray-400">/trimestre</span>
+                  <p class="text-sm text-90 mt-1">Economia de 10%</p>
+                </div>
+                <button
+                  class="btn-regular scale-animation rounded-lg w-full py-2 px-4 text-90 duration-300 mt-auto"
+                >
+                  Escolher
+                </button>
+              </form>
+            </section>
+          </div>
+
+          <!-- Semestral Card -->
+          <div class="card-base p-6">
+            <section class="flex flex-col h-full">
+              <form
+                action="https://checkout-stripe-xi.vercel.app/create-checkout-session"
+                method="POST"
+              >
+                <input
+                  type="hidden"
+                  name="priceId"
+                  value="price_1Qw2bz2Nl22xzN05AhzxnImY"
+                />
+                <div class="flex items-center space-x-2 mb-4">
+                  <h3 class="text-xl font-semibold text-90">Semestral</h3>
+                </div>
+                <div class="mb-6">
+                  <span class="text-3xl font-bold text-[--primary]"
+                    >R$71,40</span
+                  >
+                  <span class="text-gray-400">/semestre</span>
+                  <p class="text-sm text-90 mt-1">Economia de 20%</p>
+                </div>
+                <button
+                  class="btn-regular scale-animation rounded-lg w-full py-2 px-4 duration-300 mt-auto"
+                >
+                  Escolher
+                </button>
+              </form>
+            </section>
+          </div>
+
+          <!-- Anual Card -->
+          <div
+            class="bg-[#ffffff] shadow-md rounded-xl p-6 border border-yellow-500/30 hover:border-yellow-500/40 transition-all duration-300 relative"
+          >
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+              <span
+                class="bg-yellow-500 text-black text-sm font-medium px-3 py-1 rounded-full"
+              >
+                Recomendado
+              </span>
+            </div>
+            <section class="flex flex-col h-full">
+              <form
+                action="https://checkout-stripe-xi.vercel.app/create-checkout-session"
+                method="POST"
+              >
+                <input
+                  type="hidden"
+                  name="priceId"
+                  value="price_1Qw2dE2Nl22xzN05pGjYEVX9"
+                />
+                <div class="flex items-center space-x-2 mb-4">
+                  <h3 class="text-xl font-semibold text-yellow-600">Anual</h3>
+                </div>
+                <div class="mb-6">
+                  <span class="text-3xl font-bold text-black">R$89,40</span>
+                  <span class="text-gray-400">/ano</span>
+                  <p class="text-sm color-base mt-1">Economia de 50%</p>
+                </div>
+                <button
+                  class="w-full py-2 px-4 rounded-lg bg-yellow-500 text-black font-medium hover:bg-yellow-400 transition-colors duration-300 mt-auto"
+                >
+                  Escolher Plano
+                </button>
+              </form>
+            </section>
+          </div>
+        </div>
+      </div>
+      <div class="mt-20 flex flex-col items-center text-sm text-zinc-400">
+        <img
+          src="https://stripe.com/img/v3/home/social.png"
+          alt="Stripe"
+          class="h-10 mb-2"
+        />
+        <span
+          >Você será redirecionado para central de pagamentos do <strong
+            >Stripe</strong
+          > que é 100% seguro com
+        </span>
+      </div>
+    </div>
+  </body>
+</MainGridLayout>

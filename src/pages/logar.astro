@@ -1,0 +1,139 @@
+---
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import ImageWrapper from "@components/misc/ImageWrapper.astro";
+---
+
+<head>
+  <meta charset="UTF-8" />
+</head>
+
+<MainGridLayout>
+  <div class="card-base">
+    <div class="min-h-screen flex items-center justify-center px-4">
+      <div
+        class="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center"
+      >
+        <div class="mb-8">
+          <svg
+            class="mx-auto h-16 w-16 text-red-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            ></path>
+          </svg>
+        </div>
+
+        <h1 class="text-2xl font-bold text-gray-900 mb-4">Acesso Restrito</h1>
+
+        <p class="text-gray-600 mb-8">
+          Para acessar este conteúdo, você precisa ter uma conta ativa. Por
+          favor, contrate um plano para continuar.
+        </p>
+
+        <div class="bg-gray-50 p-6 rounded-lg mb-8">
+          <h2 class="text-lg font-semibold text-gray-900 mb-2">
+            Benefícios da conta:
+          </h2>
+          <ul class="text-left text-gray-600 space-y-2">
+            <li class="flex items-center">
+              <svg
+                class="h-5 w-5 text-green-500 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"></path>
+              </svg>
+              Acesso completo ao conteúdo
+            </li>
+            <li class="flex items-center">
+              <svg
+                class="h-5 w-5 text-green-500 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"></path>
+              </svg>
+              Recursos exclusivos
+            </li>
+            <li class="flex items-center">
+              <svg
+                class="h-5 w-5 text-green-500 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"></path>
+              </svg>
+              Suporte prioritário
+            </li>
+          </ul>
+        </div>
+
+        <a
+          href="/assinaturas/planos/"
+          class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+        >
+          Assinar agora
+        </a>
+
+        <p class="mt-6 text-sm text-gray-500">
+          Já tem uma conta? <a
+            class="text-blue-600 hover:text-blue-800 cursor:pointer"
+            id="login-extra">Faça login</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</MainGridLayout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const loginButton = document.getElementById("login-extra"); // Agora pegamos o botão correto
+
+    if (!loginButton) {
+      // console.error("ERRO: O botão de login NÃO foi encontrado no DOM.");
+      return;
+    }
+
+    loginButton.addEventListener("click", async () => {
+      try {
+        if (typeof window.auth0Client === "undefined") {
+          window.auth0Client = await auth0.createAuth0Client({
+            domain: "dev-6brtlssmpiy5lg8p.us.auth0.com",
+            clientId: "2ujzHWQhbUKaXPxJHtDi7YM3HYq0Tl2g",
+            authorizationParams: {
+              redirect_uri: window.location.origin + "/callback.html",
+            },
+            cacheLocation: "localstorage",
+            useRefreshTokens: true,
+          });
+        }
+
+        await window.auth0Client.loginWithRedirect();
+      } catch (error) {
+        console.error("ERRO AO EXECUTAR LOGIN:", error);
+      }
+    });
+  });
+</script>

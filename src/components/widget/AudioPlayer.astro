@@ -1,0 +1,16 @@
+---
+interface Props {
+  src: string;
+}
+
+const { src } = Astro.props;
+---
+
+{
+  src && (
+    <audio controls>
+      <source src={src} type="audio/mpeg" />
+      Seu navegador não suporta o player de áudio.
+    </audio>
+  )
+}

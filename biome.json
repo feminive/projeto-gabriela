@@ -1,0 +1,32 @@
+{
+  "workbench.colorTheme": "GitHub Dark",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.minimap.enabled": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.activityBar.location": "bottom",
+  "window.customTitleBarVisibility": "auto",
+  "editor.formatOnSaveMode": "modifications",
+  "editor.formatOnSave": false, // Desabilita a formatação automática ao salvar
+  "prettier.enable": false, // Desabilita o Prettier completamente
+  "[astro]": {
+    "editor.formatOnSave": false, // Desabilita a formatação de arquivos Astro
+    "editor.defaultFormatter": null, // Garante que não há formatação automática para arquivos Astro
+    "editor.formatOnPaste": false // Desabilita formatação ao colar também
+  }
+}

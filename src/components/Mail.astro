@@ -1,0 +1,188 @@
+---
+
+---
+
+<div
+  id="emailModal"
+  class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"
+>
+  <div
+    class="card-base p-8 rounded-xl shadow-xl w-[min(90%,450px)] relative transform scale-95 transition-transform duration-300"
+  >
+    <button
+      id="closeButton"
+      class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+      aria-label="Close modal"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M18 6L6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <div class="text-center">
+      <div class="mb-3 inline-block">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-8 w-8 text-[--primary]"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+          ></path>
+        </svg>
+      </div>
+
+      <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+        Inscreva-se na nossa newsletter
+      </h2>
+      <p class="text-90 mb-6">
+        Receba contos eróticos, notícias e promoções diretamente no seu email.
+      </p>
+
+      <form id="newsletterForm" class="space-y-4">
+        <div class="relative">
+          <input
+            type="email"
+            id="emailInput"
+            placeholder="Digite seu email"
+            class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-all duration-200"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          id="submitButton"
+          class="w-full bg-[--primary] hover:bg-black-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Inscrever
+        </button>
+
+        <button
+          type="button"
+          id="closeButton2"
+          class="w-full text-90 hover:text-gray-700 dark:hover:text-gray-300 font-medium py-2 transition-colors"
+        >
+          Me lembre em 7 dias!
+        </button>
+      </form>
+
+      <div id="modalMessage" class="mt-4 text-sm font-medium hidden"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const emailModal = document.getElementById("emailModal");
+  const emailInput = document.getElementById("emailInput") as HTMLInputElement;
+  const modalMessage = document.getElementById("modalMessage");
+  const newsletterForm = document.getElementById("newsletterForm");
+  const submitButton = document.getElementById(
+    "submitButton"
+  ) as HTMLButtonElement;
+  const closeButtons = document.querySelectorAll("#closeButton, #closeButton2");
+
+  function showModal() {
+    emailModal?.classList.remove("opacity-0", "pointer-events-none");
+    emailModal?.querySelector("div")?.classList.remove("scale-95");
+    emailModal?.querySelector("div")?.classList.add("scale-100");
+  }
+
+  function hideModal() {
+    emailModal?.classList.add("opacity-0", "pointer-events-none");
+    emailModal?.querySelector("div")?.classList.remove("scale-100");
+    emailModal?.querySelector("div")?.classList.add("scale-95");
+  }
+
+  function showMessage(message: string, isError: boolean) {
+    if (!modalMessage) return;
+
+    modalMessage.textContent = message;
+    modalMessage.classList.remove("hidden", "text-red-500", "text-green-500");
+    modalMessage.classList.add(isError ? "text-red-500" : "text-green-500");
+  }
+
+  function handleClose() {
+    hideModal();
+    localStorage.setItem("emailModalClosed", new Date().getTime().toString());
+  }
+
+  async function handleSubmit(e: Event) {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+
+    if (!email) {
+      showMessage("Please enter a valid email address", true);
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Aí, Aí, tou indo...";
+
+    try {
+      const response = await fetch(
+        "https://mail-api-brown.vercel.app/api/subscribe",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      if (!response.ok) throw new Error();
+
+      showMessage("✅ Inscrito com sucesso", false);
+      emailInput.value = "";
+
+      setTimeout(handleClose, 2000);
+    } catch (error) {
+      showMessage("❌ Broxei, espere e tente de novo.", true);
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Subscribe Now";
+    }
+  }
+
+  // Event Listeners
+  newsletterForm?.addEventListener("submit", handleSubmit);
+  closeButtons.forEach((btn) => btn.addEventListener("click", handleClose));
+
+  // Show modal logic
+  document.addEventListener("DOMContentLoaded", () => {
+    const lastClosed = localStorage.getItem("emailModalClosed");
+    const now = new Date().getTime();
+    const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+
+    if (!lastClosed || now - parseInt(lastClosed) > SEVEN_DAYS) {
+      let modalShown = false;
+
+      const showModalWithDelay = () => {
+        if (!modalShown) {
+          modalShown = true;
+          showModal();
+        }
+      };
+
+      const timer = setTimeout(showModalWithDelay, 5000);
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          showModalWithDelay();
+          clearTimeout(timer);
+        },
+        { once: true }
+      );
+    }
+  });
+</script>

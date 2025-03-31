@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Processando Login...</title>
+    <script
+      src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"
+      defer
+    ></script>
+  </head>
+  <body>
+    <p>Processando login...</p>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const auth0Client = await auth0.createAuth0Client({
+          domain: "dev-6brtlssmpiy5lg8p.us.auth0.com",
+          clientId: "2ujzHWQhbUKaXPxJHtDi7YM3HYq0Tl2g",
+          authorizationParams: {
+            redirect_uri: window.location.origin + "/callback.html",
+          },
+          cacheLocation: "localstorage", // Adicionado para salvar no localStorage
+          useRefreshTokens: true, // Adicionado para manter a sessão
+        });
+
+        try {
+          await auth0Client.handleRedirectCallback();
+          window.location.href = "/";
+        } catch (error) {
+          console.error("Erro no callback:", error);
+          window.location.href = "/";
+        }
+      });
+    </script>
+  </body>
+</html>

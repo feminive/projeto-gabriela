@@ -1,0 +1,95 @@
+---
+import { Icon } from 'astro-icon/components'
+import I18nKey from '../i18n/i18nKey'
+import { i18n } from '../i18n/translation'
+import { formatDateToYYYYMMDD } from '../utils/date-utils'
+import { url } from '../utils/url-utils'
+import { slugify } from '@utils/slugify'
+
+interface Props {
+  class: string
+  published: Date
+  updated?: Date
+  tags: string[]
+  category: string
+  hideTagsForMobile?: boolean
+  hideUpdateDate?: boolean
+   restricted?: boolean
+}
+const {
+  published,
+  updated,
+  tags,
+  category,
+  hideTagsForMobile = false,
+  hideUpdateDate = false,
+   restricted
+} = Astro.props
+const className = Astro.props.class
+
+function formatDateToDiaMesAnoNumero(date) {
+  const day = date.getDate().toString().padStart(2, '0'); // Dia com dois dígitos
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Mês (de 0 a 11, então somamos 1) com dois dígitos
+  const year = date.getFullYear(); // Ano completo
+
+  return `${day}/${month}/${year}`; // Exemplo: "08/01/2025"
+}
+
+---
+
+<div class:list={["flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2", className]}>
+    <!-- publish date -->
+    <div class="flex items-center">
+        <div class="meta-icon"
+        >
+            <Icon name="material-symbols:calendar-today-outline-rounded" class="text-sm opacity-50"></Icon>
+        </div>
+        <span class="text-50 text-sm font-medium">{formatDateToDiaMesAnoNumero(published)}</span>
+    </div>
+
+    <!-- update date -->
+    {!hideUpdateDate && updated && updated.getTime() !== published.getTime() && (
+        <div class="flex items-center">
+            <div class="meta-icon"
+            >
+                <Icon name="material-symbols:edit-calendar-outline-rounded" class="text-sm opacity-50"></Icon>
+            </div>
+            <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(updated)}</span>
+        </div>
+    )}
+
+    <!-- categories -->
+    <div class="flex items-center">
+        <div class="meta-icon"
+        >
+            <Icon name="material-symbols:book-2-outline-rounded" class="text-sm opacity-50"></Icon>
+        </div>
+        
+        <div class="flex flex-row flex-nowrap items-center">
+            <a href={url(`/arquivo/categoria/${slugify(category) || 'uncategorized'}/`)} aria-label=`View all posts in the ${category} category`
+               class="link-lg transition text-50 text-sm font-medium
+                            hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
+                {category || i18n(I18nKey.uncategorized)}
+            </a>
+        </div>
+    </div>
+
+    <!-- tags -->
+    <div class:list={["items-center", {"flex": !hideTagsForMobile, "hidden md:flex": hideTagsForMobile}]}>
+        <div class="meta-icon"
+        >
+            <Icon name="material-symbols:tag-rounded" class="text-sm opacity-50"></Icon>
+        </div>
+        <div class="flex flex-row flex-nowrap items-center">
+            {(tags && tags.length > 0) && tags.map((tag, i) => (
+                <div class:list={[{"hidden": i == 0}, "mx-1.5 text-[var(--meta-divider)] text-sm"]}>/</div>
+                <a href={url(`/arquivo/tag/${tag}/`)} aria-label=`View all posts with the ${tag} tag`
+                   class="link-lg transition text-50 text-sm font-medium
+                                hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
+                    {tag}
+                </a>
+            ))}
+            {!(tags && tags.length > 0) && <div class="transition text-50 text-sm font-medium">{i18n(I18nKey.noTags)}</div>}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import ArchivePanel from "@components/ArchivePanel.astro";
+import { i18n } from "@i18n/translation";
+import I18nKey from "@i18n/i18nKey";
+
+const title = i18n(I18nKey.archive);
+const description =
+  "Explore nosso arquivo completo de contos eróticos. Descubra histórias envolventes e sensuais para todos os gostos.";
+const image = "https://www.feminivefanfics.com.br/openhgraph.png";
+---
+
+<head>
+  <title>{title} 🌸 Feminive Fanfics</title>
+  <link rel="canonical" href="https://www.feminivefanfics.com.br/arquivo" />
+  <meta name="robots" content="index, follow" />
+
+  <meta name="description" content={description} />
+  <html lang="pt-BR">
+    <meta
+      name="keywords"
+      content="contos eróticos, histórias sensuais, leitura adulta, arquivo de contos"
+    />
+    <meta name="author" content="Feminive Fanfics" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.feminivefanfics.com.br" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.feminivefanfics.com.br" />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={image} />
+  </html>
+
+  <MainGridLayout title={title}>
+    <ArchivePanel />
+  </MainGridLayout>
+</head>

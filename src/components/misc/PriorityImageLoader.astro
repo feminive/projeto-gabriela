@@ -1,0 +1,29 @@
+---
+// PriorityImageLoader.astro
+---
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    const observerOptions = {
+      root: null, // viewport
+      threshold: 0.1, // 10% visível
+    };
+
+    let firstImageProcessed = false;
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !firstImageProcessed) {
+          const img = entry.target;
+          img.setAttribute("loading", "eager");
+          img.setAttribute("fetchpriority", "high");
+          firstImageProcessed = true;
+          observer.unobserve(img);
+        }
+      });
+    }, observerOptions);
+
+    lazyImages.forEach((img) => observer.observe(img));
+  });
+</script>

@@ -1,0 +1,105 @@
+---
+import type { GetStaticPaths } from "astro";
+import PostPage from "../../components/PostPage.astro";
+import Pagination from "../../components/control/Pagination.astro";
+import { PAGE_SIZE } from "../../constants/constants";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
+import { getSortedBlogPosts } from "../../utils/content-utils";
+// import EmailModal from "../components/Mail.astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const allBlogPosts = await getSortedBlogPosts();
+  return paginate(allBlogPosts, { pageSize: PAGE_SIZE });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+// Use a propriedade "currentPage" para extrair o número da página
+const currentPage = page.currentPage || 1;
+const allBlogPosts = await getSortedBlogPosts();
+const totalPosts = allBlogPosts.length;
+
+// Variáveis para SEO dinâmico
+const titleBase = "Feminive Fanfics 🌸 Histórias Sensuais, Desejo e Fantasia";
+const title =
+  currentPage > 1 ? `${titleBase} - Página ${currentPage}` : titleBase;
+const description =
+  currentPage > 1
+    ? `Explore contos eróticos envolventes na página ${currentPage} de Feminive Fanfics. Leia histórias de desejo, paixão e fantasia que vão despertar seus sentidos.`
+    : "Explore contos eróticos envolventes e excitantes de Feminive Fanfics. Leia histórias de desejo, paixão e fantasia que vão despertar seus sentidos.";
+// Constrói a URL absoluta a partir do objeto page.url.current
+const url =
+  currentPage > 1
+    ? `https://www.feminivefanfics.com.br${page.url.current}`
+    : "https://www.feminivefanfics.com.br";
+---
+
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Título Dinâmico -->
+  <title>{title}</title>
+
+  <!-- Meta Description -->
+  <meta name="description" content={description} />
+
+  <!-- Keywords -->
+  <meta
+    name="keywords"
+    content="contos eróticos, histórias sensuais, desejo, fantasia, contos, erotismo"
+  />
+
+  <!-- Canonical -->
+  <link rel="canonical" href={url} />
+
+  <!-- Publisher -->
+  <meta name="publisher" content="Feminive Fanfics" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta
+    property="og:image"
+    content="https://www.feminivefanfics.com.br/opengraph.png"
+  />
+  <meta property="og:url" content={url} />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta
+    name="twitter:image"
+    content="https://www.feminivefanfics.com.br/opengraph.png"
+  />
+  <meta name="twitter:site" content="@FeminiveFanfics" />
+
+  <!-- Meta Robots -->
+  <meta name="robots" content="index, follow" />
+
+  <!-- Dados Estruturados JSON-LD (sem alterações) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Website",
+      "name": "Feminive Fanfics",
+      "url": "https://www.feminivefanfics.com.br",
+      "description": "Explore contos eróticos envolventes e excitantes de Feminive Fanfics. Leia histórias de desejo, paixão e fantasia que vão despertar seus sentidos.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Feminive Fanfics",
+        "logo": "https://www.feminivefanfics.com.br/favicon/favicon.png"
+      }
+    }
+  </script>
+</head>
+<MainGridLayout>
+  <!-- <EmailModal /> -->
+  <PostPage page={page} />
+  <!-- Reduzi de 50 para 30 para ver se resolve o tempo de loading da barra. -->
+  <Pagination
+    class="mx-auto onload-animation"
+    page={page}
+    style={`animation-delay: calc(var(--content-delay) + ${totalPosts * 30}ms)`}
+  />
+</MainGridLayout>

@@ -1,0 +1,96 @@
+---
+import { Lock, Sparkles, Star, Zap } from "lucide-astro";
+
+interface Props {
+  nextPostTitle: string;
+}
+
+const { nextPostTitle } = Astro.props;
+---
+
+<div class="w-full max-w-4xl mt-10">
+  <div class="relative">
+    <!-- Decorative elements -->
+    <div
+      class="absolute -top-4 -left-4 w-8 h-8 bg-blue-500/10 rounded-full animate-pulse"
+    >
+    </div>
+    <div
+      class="absolute -bottom-4 -right-4 w-8 h-8 bg-blue-500/10 rounded-full animate-pulse"
+    >
+    </div>
+
+    <!-- Header -->
+    <div
+      class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 rounded-t-2xl relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent)] pointer-events-none"
+      >
+      </div>
+      <div class="flex items-center justify-center gap-3">
+        <Lock class="w-6 h-6" />
+        <h3 class="text-2xl font-semibold">
+          O próximo post é conteúdo exclusivo para Assinantes
+        </h3>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="bg-white rounded-b-2xl shadow-xl p-8 border border-gray-100">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <!-- Left column -->
+        <div class="space-y-6">
+          <div class="space-y-4">
+            <h4 class="text-xl font-semibold text-gray-900">
+              Não abandone essa história
+            </h4>
+            <p class="text-gray-600 leading-relaxed">
+              Descubra o que acontece em
+              <span class="font-medium text-gray-900">"{nextPostTitle}"</span>
+              e tenha acesso a todo nosso conteúdo premium.
+            </p>
+          </div>
+
+          <!-- Benefits -->
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 text-gray-700">
+              <Sparkles class="w-5 h-5 text-blue-500" />
+              <span>Conteúdo exclusivo para assinantes</span>
+            </div>
+            <div class="flex items-center gap-3 text-gray-700">
+              <Zap class="w-5 h-5 text-blue-500" />
+              <span>Escolha quais contos quer mais por aqui </span>
+            </div>
+            <div class="flex items-center gap-3 text-gray-700">
+              <Star class="w-5 h-5 text-blue-500" />
+              <span>Suporte prioritário da nossa equipe</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="bg-gray-50 rounded-2xl p-6 space-y-6">
+          <div class="text-center">
+            <p class="text-gray-600">Assinatura mensal</p>
+            <div class="mt-2 flex items-center justify-center gap-2">
+              <span class="text-4xl font-bold text-gray-900">R$ 14,90</span>
+              <span class="text-gray-500">/mês</span>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">Cancele a qualquer momento</p>
+          </div>
+
+          <button
+            class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
+          >
+            Assinar agora
+          </button>
+
+          <div class="text-center text-sm text-gray-500">
+            Pagamento 100% seguro via cartão de crédito
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

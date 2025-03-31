@@ -1,0 +1,198 @@
+---
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+
+import {
+  Shield,
+  BookOpen,
+  MessageCircle,
+  CheckCircle2,
+  ArrowRight,
+} from "lucide-astro";
+---
+
+<MainGridLayout>
+  <div
+    class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 rounded-lg card-base"
+  >
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden bg-white">
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-purple-50 to-indigo-50 opacity-70"
+      >
+      </div>
+      <div
+        class="relative max-w-7xl mx-auto px-4 py-16 sm:px-6 sm:py-24 lg:px-8"
+      >
+        <div class="text-center">
+          <h1
+            class="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent"
+          >
+            Conteúdo Exclusivo Premium
+          </h1>
+          <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
+            Junte-se a milhares de leitores que já desbloquearam acesso a
+            histórias únicas e experiências inesquecíveis
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid lg:grid-cols-2 gap-12 items-start">
+        <!-- Benefits Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-8">
+            Benefícios Premium
+          </h2>
+
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <BookOpen class="h-6 w-6 text-purple-600 mt-1 flex-shrink-0" />
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900">
+                  Conteúdo Exclusivo Diário
+                </h3>
+                <p class="mt-2 text-gray-600">
+                  Acesso a histórias premium cuidadosamente selecionadas e bem
+                  escritas todos os dias.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start">
+              <MessageCircle
+                class="h-6 w-6 text-purple-600 mt-1 flex-shrink-0"
+              />
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900">
+                  Comunidade Engajada
+                </h3>
+                <p class="mt-2 text-gray-600">
+                  Participe ativamente sugerindo ideias e interagindo
+                  diretamente com nossos autores.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start">
+              <Shield class="h-6 w-6 text-purple-600 mt-1 flex-shrink-0" />
+              <div class="ml-4">
+                <h3 class="text-lg font-semibold text-gray-900">Proteção</h3>
+                <p class="mt-2 text-gray-600">
+                  Você navega segura e protegida de forma anônima.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trust Indicators -->
+          <div class="mt-8 pt-8 border-t border-gray-200">
+            <div
+              class="flex items-center justify-between text-sm text-gray-500"
+            >
+              <div class="flex items-center">
+                <CheckCircle2 class="h-5 w-5 text-green-500" />
+                <span class="ml-2">Seguro</span>
+              </div>
+              <div class="flex items-center">
+                <CheckCircle2 class="h-5 w-5 text-green-500" />
+                <span class="ml-2">Sigilo</span>
+              </div>
+              <div class="flex items-center">
+                <CheckCircle2 class="h-5 w-5 text-green-500" />
+                <span class="ml-2">Amigável</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subscription Card -->
+        <div class="lg:sticky lg:top-8">
+          <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div
+              class="bg-gradient-to-r from-purple-600 to-indigo-600 p-8 text-white"
+            >
+              <h2 class="text-2xl font-bold">Assinatura Mensal</h2>
+              <div class="mt-4 flex items-baseline">
+                <span class="text-5xl font-extrabold tracking-tight"
+                  >R$14,90</span
+                >
+                <span class="ml-2 text-xl">/mês</span>
+              </div>
+              <p class="mt-2 text-purple-100">
+                No plano anual ganhe 50% de desconto
+              </p>
+            </div>
+
+            <div class="p-8">
+              <ul class="space-y-4">
+                {
+                  [
+                    "Acesso ilimitado a todo conteúdo",
+                    "Histórias exclusivas diárias",
+                    "Sugestões de novos conteúdos",
+                    "Suporte premium",
+                  ].map((feature) => (
+                    <li class="flex items-center">
+                      <CheckCircle2 class="h-5 w-5 text-purple-600" />
+                      <span class="ml-3 text-gray-700">{feature}</span>
+                    </li>
+                  ))
+                }
+              </ul>
+
+              <div class="mt-8">
+                <a
+                  href="https://checkout-stripe-xi.vercel.app/"
+                  class="block w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-center px-6 py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center"
+                >
+                  Começar Agora
+                  <ArrowRight class="ml-2 h-5 w-5" />
+                </a>
+              </div>
+
+              <p class="mt-6 text-center text-gray-500 text-sm">
+                Já é assinante?{" "}
+                <button
+                  class="text-purple-600 font-semibold hover:text-purple-800"
+                >
+                  Fazer login
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainGridLayout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const loginButton = document.getElementById("login-extra");
+    if (!loginButton) {
+      // console.error("ERRO: O botão de login NÃO foi encontrado no DOM.");
+      return;
+    }
+
+    loginButton.addEventListener("click", async () => {
+      try {
+        if (typeof window.auth0Client === "undefined") {
+          window.auth0Client = await auth0.createAuth0Client({
+            domain: "dev-6brtlssmpiy5lg8p.us.auth0.com",
+            clientId: "2ujzHWQhbUKaXPxJHtDi7YM3HYq0Tl2g",
+            authorizationParams: {
+              redirect_uri: window.location.origin + "/callback.html",
+            },
+            cacheLocation: "localstorage",
+            useRefreshTokens: true,
+          });
+        }
+        await window.auth0Client.loginWithRedirect();
+      } catch (error) {
+        console.error("ERRO AO EXECUTAR LOGIN:", error);
+      }
+    });
+  });
+</script>

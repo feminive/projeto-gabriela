@@ -1,0 +1,148 @@
+---
+import { Icon } from 'astro-icon/components'
+import DisplaySettings from './widget/DisplaySettings.svelte'
+import { LinkPreset, type NavBarLink } from '../types/config'
+import { navBarConfig, siteConfig } from '../config'
+import NavMenuPanel from './widget/NavMenuPanel.astro'
+import Search from './Search.svelte'
+import { LinkPresets } from '../constants/link-presets'
+import LightDarkSwitch from './LightDarkSwitch.svelte'
+import { url } from '../utils/url-utils'
+import { Image } from 'astro:assets';
+import myImage from '../assets/logo.webp';
+const className = Astro.props.class
+
+
+let links: NavBarLink[] = navBarConfig.links.map(
+  (item: NavBarLink | LinkPreset): NavBarLink => {
+    if (typeof item === 'number') {
+      return LinkPresets[item]
+    }
+    return item
+  },
+)
+---
+<div id="navbar" class="z-50 onload-animation">
+    <div class="absolute h-8 left-0 right-0 -top-8 transition"></div>
+    <div class:list={[
+        className,
+        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4 !bg-[var(--navbar)]"
+    ]}>
+        <!-- Lado esquerdo (Logo + Links) -->
+        <div class="flex items-center gap-4">
+            <Image 
+            src={myImage} 
+            alt="Descrição da imagem" 
+            width={60} 
+            height={60} 
+            format="webp" 
+            class="opacity-0 md:opacity-100 transition-opacity duration-300"
+        />
+                    <div class="hidden md:flex">
+                {links.map((l) => {
+                    return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
+                              class="btn-plain scale-animation rounded-lg h-11 px-5 active:scale-95 !text-white">
+                        <div class="flex items-center">
+                            {l.name}
+                            {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-white dark:text-white/[0.2]"></Icon>}
+                        </div>
+                    </a>;
+                })}
+            </div>
+        </div>
+
+        <!-- Lado direito (Search e Botões) -->
+        <div class="flex items-center gap-3 justify-end">
+            <Search client:only="svelte"></Search>
+            {!siteConfig.themeColor.fixed && (
+                <button aria-label="Display Settings" class="btn-navbar scale-animation rounded-lg h-11 w-11 active:scale-90 " id="display-settings-switch">
+                    <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
+                </button>
+        )}
+            
+            <LightDarkSwitch client:load></LightDarkSwitch>
+            <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden " id="nav-menu-switch">
+                <Icon name="material-symbols:menu-rounded" class="text-[1.25rem] !text-white "></Icon>
+            </button>
+
+            <!-- Botões de Login e Logout -->
+            <div>
+                <button id="login" class="btn-plain scale-animation rounded-lg h-11 px-5 active:scale-95 !text-white">Entrar</button>
+                <button id="logout" style="display: none;" class="btn-plain scale-animation rounded-lg h-11 px-5 active:scale-95 !text-white">Sair</button>
+                <div id="profile" style="display: none;">
+                    <img id="profile-img" src="" />
+                </div>
+            </div>
+        
+          
+        </div>
+        <NavMenuPanel links={links}></NavMenuPanel>
+        <DisplaySettings client:only="svelte"></DisplaySettings>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+function switchTheme() {
+    if (localStorage.theme === 'dark') {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+    } else {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+    }
+}
+
+function loadButtonScript() {
+    let switchBtn = document.getElementById("scheme-switch");
+    if (switchBtn) {
+        switchBtn.addEventListener("click", function () {
+            switchTheme()
+        });
+    }
+
+    let settingBtn = document.getElementById("display-settings-switch");
+    if (settingBtn) {
+        settingBtn.addEventListener("click", function () {
+            let settingPanel = document.getElementById("display-setting");
+            if (settingPanel) {
+                settingPanel.classList.toggle("float-panel-closed");
+            }
+        });
+    }
+
+    let menuBtn = document.getElementById("nav-menu-switch");
+    if (menuBtn) {
+        menuBtn.addEventListener("click", function () {
+            let menuPanel = document.getElementById("nav-menu-panel");
+            if (menuPanel) {
+                menuPanel.classList.toggle("float-panel-closed");
+            }
+        });
+    }
+}
+
+loadButtonScript();
+</script>
+{import.meta.env.PROD && <script is:inline>
+    document.addEventListener("DOMContentLoaded", async () => {
+        if (!window.pagefind) {
+            try {
+                window.pagefind = await import("/pagefind/pagefind.js");
+                await window.pagefind.init();
+                await window.pagefind.search(""); // Evita lentidão na primeira busca
+            } catch (error) {
+                console.error("Erro ao carregar Pagefind:", error);
+            }
+        }
+    });
+
+{/* loadPagefind() */}
+
+
+
+
+</script>}
+

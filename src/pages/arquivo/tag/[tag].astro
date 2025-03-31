@@ -1,0 +1,42 @@
+---
+import ArchivePanel from "@components/ArchivePanel.astro";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getSortedPosts } from "@utils/content-utils";
+
+export async function getStaticPaths() {
+  const posts = await getSortedPosts();
+
+  const allTags = posts.reduce<Set<string>>((acc, post) => {
+    post.data.tags.forEach((tag) => acc.add(tag));
+    return acc;
+  }, new Set());
+
+  const allTagsArray = Array.from(allTags);
+
+  return allTagsArray.map((tag) => ({
+    params: {
+      tag: tag,
+    },
+  }));
+}
+
+const tag = Astro.params.tag as string;
+const baseUrl = "https://www.feminivefanfics.com.br";
+const canonicalUrl = `${baseUrl}/${tag}`;
+const pageTitle = `Contos Eróticos com o tema: ${tag}`;
+const metaDescription = `Explore dezenas de contos eróticos com o tema ${tag} em nosso site.`;
+---
+
+<MainGridLayout title={pageTitle} description={metaDescription}>
+  <Fragment slot="head">
+    <!-- <link rel="canonical" href={canonicalUrl} /> -->
+
+    <meta name="description" content={metaDescription} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <!-- <meta property="og:url" content={canonicalUrl} /> -->
+    <meta name="twitter:card" content="summary_large_image" />
+  </Fragment>
+
+  <ArchivePanel tags={[tag]} />
+</MainGridLayout>

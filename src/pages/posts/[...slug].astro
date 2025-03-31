@@ -1,0 +1,413 @@
+---
+import { getCollection } from "astro:content";
+import License from "@components/misc/License.astro";
+import Markdown from "@components/misc/Markdown.astro";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getPostUrlBySlug, getAudioUrl } from "@utils/url-utils";
+import { Icon } from "astro-icon/components";
+import { licenseConfig } from "src/config";
+import PostMetadata from "../../components/PostMeta.astro";
+import { profileConfig, siteConfig } from "../../config";
+import { formatDateToYYYYMMDD } from "../../utils/date-utils";
+import ReadingProgressBar from "@components/control/ReadingProgressBar.astro";
+import AudioPlayer from "@components/widget/AudioPlayer.astro";
+import NextPostRestricted from "@components/NextPostRestricted.astro";
+import Comments from "@components/Comments.astro";
+// Filtra os posts da mesma categoria
+export async function getStaticPaths() {
+  const blogEntries = await getCollection("posts", ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+  });
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings, remarkPluginFrontmatter } = await entry.render();
+const audio = entry.data.audio ? getAudioUrl(entry.data.audio) : "";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting", // Mantém o tipo padrão de post
+  headline: entry.data.title,
+  description: entry.data.description || entry.data.title,
+  keywords: entry.data.tags,
+  author: {
+    "@type": "Person",
+    name: profileConfig.name,
+    url: Astro.site,
+  },
+  datePublished: formatDateToYYYYMMDD(entry.data.published),
+  inLanguage: entry.data.lang
+    ? entry.data.lang.replace("_", "-")
+    : siteConfig.lang.replace("_", "-"),
+};
+
+// Se o conto tiver áudio, adiciona um "AudioObject" SEM modificar o BlogPosting
+if (audio) {
+  jsonLd.associatedMedia = {
+    "@type": "AudioObject",
+    contentUrl: audio,
+    encodingFormat: "audio/mpeg",
+    name: `Áudio de ${entry.data.title}`,
+    uploadDate: formatDateToYYYYMMDD(entry.data.published),
+  };
+}
+
+// Obtém os posts da mesma categoria
+const allPosts = await getCollection("posts");
+// Isso aqui é para não mostrar os posts que estão em rascunho isso estava gerando 404 toda hora
+const categoryPosts = allPosts.filter(
+  (post) =>
+    post.data.category === entry.data.category && post.data.draft !== true
+);
+
+// Ordena os posts pela data de publicação
+const sortedPosts = categoryPosts.sort(
+  (a, b) => new Date(a.data.published) - new Date(b.data.published)
+);
+
+// Encontra o índice do post atual na lista ordenada
+const currentIndex = sortedPosts.findIndex((post) => post.slug === entry.slug);
+
+// Encontra os posts anterior e próximo
+const prevPost = sortedPosts[currentIndex - 1];
+const nextPost = sortedPosts[currentIndex + 1];
+
+// Verifica se o post posterior é restrito
+
+const nextPostRestricted = nextPost?.data.restricted === true;
+
+// console.log("Próximo post é restrito:", nextPostRestricted);
+
+if (nextPostRestricted) {
+  console.warn("⚠️ O próximo post é restrito! ⚠️");
+}
+
+// Obtém o primeiro post da categoria
+const firstPost = sortedPosts.length > 0 ? sortedPosts[0] : null;
+const firstPostUrl = firstPost ? getPostUrlBySlug(firstPost.slug) : "#";
+
+// Formatar as tags
+const formatarTags = (tags: any) => {
+  if (!tags || tags.length === 0) return "";
+  if (tags.length === 1) return tags[0];
+  if (tags.length === 2) return `${tags[0]} e ${tags[1]}`;
+  return `${tags.slice(0, -1).join(", ")} e ${tags[tags.length - 1]}`;
+};
+
+const tagsFormatadas = formatarTags(entry.data.tags);
+const restricted = entry.data.restricted; // Recebendo a propriedade 'restricted'
+---
+
+<head>
+  <title>
+    {
+      `${entry.data.title} 🌸 Feminive Fanfics contos eróticos  ${audio ? "narrados" : ""}`
+    }
+  </title>
+  <meta
+    name="description"
+    content={`${entry.data.title} é um conto erótico ${audio ? "narrado" : ""} com tema: ${tagsFormatadas}`}
+  />
+  <meta charset="UTF-8" />
+
+  <!-- <link rel="canonical" href={`${Astro.site}posts/${entry.slug}`} /> --><!-- Open Graph Tags -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={`${entry.data.title}`} />
+  <meta
+    property="og:description"
+    content={`${entry.data.title} é um conto erótico com tema: ${tagsFormatadas}`}
+  />
+  <meta property="og:url" content={`${Astro.site}posts/${entry.slug}`} />
+  <!-- <meta
+    property="og:image"
+    content={`https://www.feminivefanfics.com.br/thumbnail/${entry.data.title}.jpg`}
+  /> -->
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@feminivefanfics" />
+  <meta name="twitter:title" content={`${entry.data.title}`} />
+  <meta
+    name="twitter:description"
+    content={`${entry.data.title} é um conto erótico com tema ${tagsFormatadas}`}
+  />
+</head>
+<MainGridLayout
+  title={`${entry.data.title} é um conto erótico com tema: ${tagsFormatadas}`}
+  description={`${entry.data.description} é um conto erótico com tema: ${tagsFormatadas}`}
+  lang="pt-BR"
+  setOGTypeArticle={false}
+  headings={headings}
+>
+  <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+      const auth0Client = await auth0.createAuth0Client({
+        domain: "dev-6brtlssmpiy5lg8p.us.auth0.com",
+        clientId: "2ujzHWQhbUKaXPxJHtDi7YM3HYq0Tl2g",
+        cacheLocation: "localstorage",
+        useRefreshTokens: true,
+      });
+
+      const isAuthenticated = await auth0Client.isAuthenticated();
+      const isSubscribed = sessionStorage.getItem("isSubscribed") === "true";
+
+      // Se o usuário for assinante, oculta o aviso do próximo post restrito
+      if (isSubscribed) {
+        const nextPostWarning = document.getElementById("next-post-warning");
+        if (nextPostWarning) {
+          nextPostWarning.style.display = "none";
+        }
+      }
+    });
+  </script>
+  <ReadingProgressBar />
+  <script
+    is:inline
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(jsonLd)}
+  />
+
+  <div data-restricted={restricted ? "true" : "false"}>
+    <div
+      class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative mb-4"
+    >
+      <div
+        id="post-container"
+        class:list={[
+          "card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full ",
+          {},
+        ]}
+      >
+        <!-- word count and reading time -->
+        <div
+          class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation"
+        >
+          <div class="flex flex-row items-center">
+            <div
+              class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"
+            >
+              <Icon name="material-symbols:notes-rounded" />
+            </div>
+            <!-- Exibir aviso do próximo post restrito, se necessário -->
+
+            <div class="text-sm">
+              {remarkPluginFrontmatter.words}
+              {" " + i18n(I18nKey.wordsCount)}
+            </div>
+          </div>
+          <div class="flex flex-row items-center">
+            <div
+              class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2"
+            >
+              <Icon name="material-symbols:schedule-outline-rounded" />
+            </div>
+            <div class="text-sm">
+              {remarkPluginFrontmatter.minutes}
+              {" " + i18n(I18nKey.minutesCount)}
+            </div>
+          </div>
+        </div>
+
+        <!-- title -->
+        <!-- <div class="relative onload-animation"> -->
+
+        <div class="relative">
+          <!-- <div
+            data-pagefind-body
+            data-pagefind-weight="10"
+            data-pagefind-meta="title"
+            class="transition w-full block font-bold mb-3
+                    text-3xl md:text-[2.25rem]/[2.75rem]
+                    text-[var(--primary)] dark:text-white/90
+                    md:before:w-1 before:h-5 before:rounded-md before:bg-[var(--primary)]
+                    before:absolute before:top-[0.45rem] before:left-[-1.125rem]"
+          >
+            {entry.data.title}
+          </div> -->
+          <!-- Tou tentando resolver o problema de LCP aqui -->
+          <div
+            data-pagefind-body
+            data-pagefind-weight="10"
+            data-pagefind-meta="title"
+            class="opacity-100 translate-y-0 transition-opacity duration-500 ease-in-out
+          transform-gpu opacity-0 translate-y-2 motion-safe:opacity-100 motion-safe:translate-y-0
+          w-full block font-bold mb-3 text-3xl md:text-[2.25rem]/[2.75rem]
+          text-[var(--primary)] dark:text-white/90"
+          >
+            {entry.data.title}
+          </div>
+          <h2
+            class="transition w-full block mb-3
+            text-small italic
+            text-[var(--primary)] dark:text-white/60"
+          >
+            {entry.data.description}
+          </h2>
+        </div>
+
+        <!-- metadata -->
+        <div class="onload-animation">
+          <PostMetadata
+            class="mb-5"
+            published={entry.data.published}
+            updated={entry.data.updated}
+            tags={entry.data.tags}
+            category={entry.data.category}
+            restricted={entry.data.restricted}
+          />
+          {
+            !entry.data.image && (
+              <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5" />
+            )
+          }
+        </div>
+        <script>
+          document.addEventListener("DOMContentLoaded", async function () {
+            const auth0Client = await auth0.createAuth0Client({
+              domain: "dev-6brtlssmpiy5lg8p.us.auth0.com",
+              clientId: "2ujzHWQhbUKaXPxJHtDi7YM3HYq0Tl2g",
+              cacheLocation: "localstorage",
+              useRefreshTokens: true,
+            });
+
+            const isAuthenticated = await auth0Client.isAuthenticated();
+            const isSubscribed =
+              sessionStorage.getItem("isSubscribed") === "true";
+
+            // console.log("Está autenticado?", isAuthenticated);
+            // console.log("Tem assinatura ativa?", isSubscribed);
+
+            const restrictedElement =
+              document.querySelector("[data-restricted]");
+            const isRestricted =
+              restrictedElement?.getAttribute("data-restricted") === "true";
+
+            // console.log("Post é restrito:", isRestricted);
+
+            if (isRestricted && (!isAuthenticated || !isSubscribed)) {
+              window.location.href = "/assinaturas/bloqueado/";
+            }
+          });
+        </script>
+
+        <!-- Inserção para mostrar o primeiro conto -->
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 my-10 gap-8">
+          <!-- Botão para o primeiro episódio (renderiza somente se a condição for atendida) -->
+          {
+            firstPost &&
+              entry.slug !== firstPost.slug &&
+              entry.data.category !== "Contos Eróticos" && (
+                <div class="flex justify-center">
+                  <a href={firstPostUrl} class="rounded-xl m-10 flex flex-row">
+                    <button class="btn-plain w-[300px] h-[54px] bg-[var(--enter-btn-bg)] rounded-full">
+                      <Icon
+                        name="material-symbols:first-page-rounded"
+                        class="text-[2rem] text-[var(--primary)]"
+                      />
+                      <div class="text-black/75 dark:text-white/75 mt-1">
+                        Ler o primeiro episódio
+                      </div>
+                    </button>
+                  </a>
+                </div>
+              )
+          }
+
+          <!-- Componente de áudio (renderiza somente se a variável de áudio estiver disponível) -->
+          {
+            audio && (
+              <div class="flex justify-center">
+                <AudioPlayer src={audio} />
+              </div>
+            )
+          }
+        </div>
+
+        <Markdown class="mb-6 markdown-content onload-animation">
+          <Content />
+        </Markdown>
+
+        <!-- {
+            nextPostRestricted && (
+              <NextPostRestricted nextPostTitle={nextPost.data.title} />
+            )
+          } -->
+        <!-- Container do aviso -->
+        {
+          nextPostRestricted && (
+            <div id="next-post-warning">
+              <NextPostRestricted nextPostTitle={nextPost.data.title} />
+            </div>
+          )
+        }
+        {
+          licenseConfig.enable && (
+            <License
+              title={entry.data.title}
+              slug={entry.slug}
+              pubDate={entry.data.published}
+              class="mb-6 rounded-xl license-container onload-animation"
+            />
+          )
+        }
+      </div>
+    </div>
+
+    <!-- Navegação de posts da mesma categoria -->
+    <div
+      class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full"
+    >
+      <a
+        href={prevPost ? getPostUrlBySlug(prevPost.slug) : "#"}
+        class:list={[
+          "w-full font-bold overflow-hidden active:scale-95",
+          { "pointer-events-none": !prevPost },
+        ]}
+      >
+        {
+          prevPost && (
+            <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-start gap-4">
+              <Icon
+                name="material-symbols:chevron-left-rounded"
+                class="text-[2rem] text-[var(--primary)]"
+              />
+              <h1 class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
+                {prevPost.data.title}
+              </h1>
+            </div>
+          )
+        }
+      </a>
+
+      <a
+        href={nextPost ? getPostUrlBySlug(nextPost.slug) : "#"}
+        class:list={[
+          "w-full font-bold overflow-hidden active:scale-95",
+          { "pointer-events-none": !nextPost },
+        ]}
+      >
+        {
+          nextPost && (
+            <div class="btn-card rounded-2xl w-full h-[3.75rem] max-w-full px-4 flex items-center !justify-end gap-4">
+              <div class="overflow-hidden transition overflow-ellipsis whitespace-nowrap max-w-[calc(100%_-_3rem)] text-black/75 dark:text-white/75">
+                {nextPost.data.title}
+              </div>
+              <Icon
+                name="material-symbols:chevron-right-rounded"
+                class="text-[2rem] text-[var(--primary)]"
+              />
+            </div>
+          )
+        }
+      </a>
+    </div>
+    <Comments />
+  </div></MainGridLayout
+>

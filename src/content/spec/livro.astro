@@ -1,0 +1,78 @@
+---
+import ImageWrapper from "@components/misc/ImageWrapper.astro";
+---
+
+<div class="text-90 p-6 sm:p-10">
+  <div class="flex flex-col items-center text-center mb-6 sm:mb-10">
+    <h1 class="mb-3 text-2xl sm:text-4xl font-bold text-[var(--primary)]">
+      Leve minhas histórias com você!
+    </h1>
+    <p class="sm:text-base">
+      Minhas histórias foram escritas com paixão e desejo. Agora, você pode
+      levá-las para qualquer lugar.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <!-- Imagem -->
+    <div class="p-4 flex justify-center">
+      <ImageWrapper
+        src="assets/images/livro.webp"
+        alt="Capa do Livro"
+        class="w-3/4 sm:w-full h-auto rounded-xl shadow-md"
+      />
+    </div>
+
+    <!-- Texto -->
+    <div class="p-4 text-justify break-words hyphens-auto text-sm sm:text-base">
+      <p>
+        Eu reuni minhas histórias favoritas para que você possa mergulhar nelas
+        sempre que quiser. Você pode baixar gratuitamente e aproveitar cada
+        palavra sem limites. Mas, se minhas palavras tocaram você de alguma
+        forma, se elas fizeram você sonhar, suspirar ou até mesmo desejar,
+        considere apoiar meu trabalho.
+      </p>
+      <p class="mt-3">
+        Cada pequena contribuição é um incentivo gigantesco para que eu continue
+        criando novas histórias, explorando novas fantasias e trazendo ainda
+        mais emoções para você. Seu apoio me motiva a escrever cada vez mais e a
+        tornar esse universo de histórias ainda mais intenso.
+      </p>
+      <strong class="block mt-4 text-center sm:text-left">
+        Baixe, aproveite e, se puder, deixe sua contribuição. Você faz parte
+        dessa jornada!
+      </strong>
+
+      <!-- Botões -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+        <a href="/apoie/" aria-label="Ir para a página de apoio">
+          <button
+            class="btn-plain rounded-lg w-full h-12 sm:h-15 bg-[var(--enter-btn-bg)] p-3"
+          >
+            <div
+              class="text-[var(--primary)] flex items-center justify-center gap-2"
+            >
+              Contribuir
+            </div>
+          </button>
+        </a>
+
+        <a
+          href="/outros/Contos Femininos - Feminive Fanfics.epub"
+          download
+          aria-label="Baixar arquivo EPUB"
+        >
+          <button
+            class="btn-plain rounded-lg w-full h-12 sm:h-15 bg-[var(--enter-btn-bg)]"
+          >
+            <div
+              class="text-[var(--primary)] flex items-center justify-center gap-2"
+            >
+              Baixar Epub
+            </div>
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
